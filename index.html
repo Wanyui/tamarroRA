@@ -70,13 +70,31 @@
         .ar-button {
             background-color: #4CAF50;
             color: white;
-            padding: 10px 20px;
+            padding: 15px 25px;
             border: none;
             border-radius: 20px;
             font-size: 16px;
             cursor: pointer;
             margin-top: 10px;
-            display: none;
+            display: block !important;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .ar-button[disabled] {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .ar-status {
+            text-align: center;
+            margin-top: 10px;
+            color: #666;
+            font-style: italic;
         }
 
         .ar-instructions {
@@ -109,7 +127,7 @@
             ios-src="./Character.glb"
             alt="Modelo 3D"
             ar
-            ar-modes="webxr scene-viewer quick-look"
+            ar-modes="scene-viewer quick-look webxr"
             camera-controls
             auto-rotate
             ar-scale="fixed"
@@ -139,6 +157,7 @@
                 Cargando modelo 3D...
             </div>
         </model-viewer>
+        <div class="ar-status" id="ar-status"></div>
 
         <div class="qr-container">
             <h2>Escanea para ver en tu móvil</h2>
@@ -152,12 +171,18 @@
                     <li>Toca la pantalla para colocar el modelo</li>
                     <li>¡Muévete alrededor y toma fotos!</li>
                 </ol>
+                <p><strong>Nota:</strong> Asegúrate de usar:</p>
+                <ul>
+                    <li>En Android: Chrome o el navegador nativo</li>
+                    <li>En iOS: Safari</li>
+                </ul>
             </div>
         </div>
     </div>
 
     <script>
         const modelViewer = document.querySelector('model-viewer');
+        const arStatus = document.getElementById('ar-status');
         
         // Generar código QR
         window.onload = function() {
@@ -168,7 +193,23 @@
                 size: 256,
                 level: 'H'
             });
+
+            // Verificar soporte de AR
+            checkARSupport();
         };
+
+        // Función para verificar soporte de AR
+        function checkARSupport() {
+            if (window.navigator.userAgent.includes('Mobile')) {
+                if (window.navigator.userAgent.includes('Android')) {
+                    arStatus.textContent = 'Dispositivo Android detectado - AR disponible en Chrome';
+                } else if (window.navigator.userAgent.includes('iPhone') || window.navigator.userAgent.includes('iPad')) {
+                    arStatus.textContent = 'Dispositivo iOS detectado - AR disponible en Safari';
+                }
+            } else {
+                arStatus.textContent = 'AR solo disponible en dispositivos móviles';
+            }
+        }
 
         // Eventos de AR
         modelViewer.addEventListener('ar-status', (event) => {
@@ -179,14 +220,15 @@
             }
         });
 
-        // Detectar si AR está disponible
-        if (modelViewer.canActivateAR) {
-            document.querySelector('.ar-button').style.display = 'block';
-        }
-
         // Manejar eventos de carga
         modelViewer.addEventListener('load', () => {
             document.querySelector('.loading').style.display = 'none';
+        });
+
+        // Manejar errores
+        modelViewer.addEventListener('error', (error) => {
+            console.error('Error cargando el modelo:', error);
+            arStatus.textContent = 'Error cargando el modelo 3D';
         });
     </script>
 </body>
