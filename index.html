@@ -125,27 +125,25 @@
         
         <model-viewer
             src="Character.glb"
-            ios-src="Character.usdz"
+            ios-src="TamarroRA.usdz"
             alt="Modelo 3D"
             ar
             ar-modes="webxr scene-viewer quick-look"
             camera-controls
             auto-rotate
             ar-scale="fixed"
-            exposure="1"
-            shadow-intensity="1"
-            environment-image="neutral"
-            camera-orbit="45deg 55deg 2.5m"
             ar-placement="floor"
             ar-status
-            shadow-softness="1"
-            style="background-color: #eee;"
+            bounds="tight"
+            disable-zoom
             interaction-prompt="auto"
             min-camera-orbit="auto auto auto"
             max-camera-orbit="auto auto auto"
             camera-target="0 1 0"
             field-of-view="30deg"
             loading="eager"
+            quick-look-browsers="safari chrome"
+            touch-action="pan-y"
         >
             <button slot="ar-button" class="ar-button">
                 👋 Ver en tu espacio
