@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>Visualizador 3D con AR</title>
     <!-- Import the component -->
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
@@ -124,10 +125,10 @@
         
         <model-viewer
             src="./Character.glb"
-            ios-src="./Character.glb"
+            ios-src="./Character.usdz"
             alt="Modelo 3D"
             ar
-            ar-modes="scene-viewer quick-look webxr"
+            ar-modes="quick-look scene-viewer webxr"
             camera-controls
             auto-rotate
             ar-scale="fixed"
@@ -146,6 +147,7 @@
             camera-target="0 1 0"
             field-of-view="30deg"
             loading="eager"
+            quick-look-browsers="safari chrome"
         >
             <button slot="ar-button" class="ar-button">
                 👋 Ver en tu espacio
@@ -163,18 +165,19 @@
             <h2>Escanea para ver en tu móvil</h2>
             <canvas id="qr-canvas"></canvas>
             <div class="ar-instructions">
-                <p>📱 <strong>Instrucciones para AR:</strong></p>
+                <p>📱 <strong>Instrucciones para iOS:</strong></p>
                 <ol>
-                    <li>Escanea el código QR con tu móvil</li>
-                    <li>Toca el botón "Ver en tu espacio"</li>
-                    <li>Apunta tu cámara al suelo y mueve lentamente</li>
-                    <li>Toca la pantalla para colocar el modelo</li>
-                    <li>¡Muévete alrededor y toma fotos!</li>
+                    <li>Asegúrate de usar Safari (otros navegadores no funcionarán)</li>
+                    <li>Toca el botón "Ver en AR" cuando aparezca</li>
+                    <li>Espera a que se cargue el modelo</li>
+                    <li>Apunta la cámara al suelo</li>
+                    <li>Toca para colocar el modelo</li>
                 </ol>
-                <p><strong>Nota:</strong> Asegúrate de usar:</p>
+                <p><em>Nota: Si no ves el botón de AR, asegúrate de:</em></p>
                 <ul>
-                    <li>En Android: Chrome o el navegador nativo</li>
-                    <li>En iOS: Safari</li>
+                    <li>Estar usando Safari en iOS 12 o superior</li>
+                    <li>Tener conexión a Internet</li>
+                    <li>Dar permiso a la cámara cuando se solicite</li>
                 </ul>
             </div>
         </div>
@@ -200,12 +203,19 @@
 
         // Función para verificar soporte de AR
         function checkARSupport() {
-            if (window.navigator.userAgent.includes('Mobile')) {
-                if (window.navigator.userAgent.includes('Android')) {
-                    arStatus.textContent = 'Dispositivo Android detectado - AR disponible en Chrome';
-                } else if (window.navigator.userAgent.includes('iPhone') || window.navigator.userAgent.includes('iPad')) {
-                    arStatus.textContent = 'Dispositivo iOS detectado - AR disponible en Safari';
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+            
+            if (isIOS) {
+                if (isSafari) {
+                    arStatus.textContent = 'Dispositivo iOS detectado - AR disponible ✅';
+                    arStatus.style.color = '#4CAF50';
+                } else {
+                    arStatus.textContent = '⚠️ Por favor, usa Safari para ver en AR';
+                    arStatus.style.color = '#ff9800';
                 }
+            } else if (window.navigator.userAgent.includes('Android')) {
+                arStatus.textContent = 'Dispositivo Android detectado - AR disponible en Chrome';
             } else {
                 arStatus.textContent = 'AR solo disponible en dispositivos móviles';
             }
@@ -229,6 +239,7 @@
         modelViewer.addEventListener('error', (error) => {
             console.error('Error cargando el modelo:', error);
             arStatus.textContent = 'Error cargando el modelo 3D';
+            arStatus.style.color = '#f44336';
         });
     </script>
 </body>
