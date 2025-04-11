@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizador 3D con AR</title>
+    <!-- Import the component -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <style>
+        model-viewer {
+            width: 100%;
+            height: 70vh;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .instructions {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #error-message {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+        }
+        .qr-container {
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        #qr-canvas {
+            margin: 20px auto;
+            display: block;
+        }
+        .qr-instructions {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="instructions">
+            <h1>Visualizador 3D con Realidad Aumentada</h1>
+            <p>Usa el botón 'Ver en tu espacio' para activar la RA</p>
+        </div>
+        
+        <model-viewer
+            src="./Character.gltf"
+            ios-src="./Character.gltf"
+            alt="Modelo 3D"
+            ar
+            ar-modes="webxr scene-viewer quick-look"
+            camera-controls
+            auto-rotate
+            ar-scale="fixed"
+            exposure="1"
+            shadow-intensity="1"
+            environment-image="neutral"
+            camera-orbit="45deg 55deg 2.5m"
+            style="background-color: #eee;"
+            onError="handleError(event)"
+        ></model-viewer>
+        <div id="error-message"></div>
+
+        <div class="qr-container">
+            <h2>Escanea para ver en tu móvil</h2>
+            <canvas id="qr-canvas"></canvas>
+            <p class="qr-instructions">Apunta la cámara de tu móvil al código QR para abrir el visualizador</p>
+        </div>
+    </div>
+
+    <script>
+        const modelViewer = document.querySelector('model-viewer');
+        const errorMessage = document.getElementById('error-message');
+
+        function handleError(event) {
+            console.error('Error loading model:', event.detail);
+            errorMessage.style.display = 'block';
+            errorMessage.textContent = 'Error al cargar el modelo: ' + event.detail.type;
+        }
+
+        modelViewer.addEventListener('load', () => {
+            console.log('Modelo cargado correctamente');
+        });
+
+        // Generar código QR usando QRious
+        window.onload = function() {
+            const currentUrl = window.location.href;
+            const qr = new QRious({
+                element: document.getElementById('qr-canvas'),
+                value: currentUrl,
+                size: 256,
+                level: 'H'
+            });
+        };
+
+        // Verificar si el modelo está disponible
+        fetch('./Character.gltf')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('No se pudo cargar el modelo');
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                console.log('Modelo encontrado, tamaño:', blob.size);
+            })
+            .catch(error => {
+                console.error('Error al verificar el modelo:', error);
+                errorMessage.style.display = 'block';
+                errorMessage.textContent = 'Error al acceder al modelo: ' + error.message;
+            });
+    </script>
+</body>
+</html> 
