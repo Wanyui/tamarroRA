@@ -25,6 +25,9 @@
             --poster-color: transparent;
             --progress-bar-height: 0;
             --progress-mask: none;
+            --model-height: 100%;
+            --ar-button-border-radius: 20px;
+            --ar-translate-z: 0;
         }
 
         .container {
@@ -140,13 +143,14 @@
             ar-min-scale="0.01"
             ar-max-scale="10000"
             ar-placement="floor"
+            placement="floor"
             ar-status
             bounds="tight"
             min-field-of-view="5deg"
             max-field-of-view="120deg"
             min-camera-orbit="auto 0deg auto"
             max-camera-orbit="auto 180deg 100m"
-            camera-target="0 1 0"
+            camera-target="0 0 0"
             field-of-view="45deg"
             loading="eager"
             quick-look-browsers="safari chrome"
@@ -154,6 +158,12 @@
             interpolation-decay="200"
             exposure="1"
             interaction-prompt="none"
+            ar-placement-position="0 0 0"
+            skybox-image="none"
+            environment-image="neutral"
+            shadow-intensity="1"
+            shadow-softness="1"
+            ar-level="floor"
         >
             <button slot="ar-button" class="ar-button">
                 👋 Ver en tu espacio
