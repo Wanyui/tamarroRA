@@ -125,10 +125,10 @@
         
         <model-viewer
             src="Character.glb"
-            ios-src="Character.glb"
+            ios-src="Character.usdz"
             alt="Modelo 3D"
             ar
-            ar-modes="quick-look scene-viewer webxr"
+            ar-modes="webxr scene-viewer quick-look"
             camera-controls
             auto-rotate
             ar-scale="fixed"
@@ -141,13 +141,11 @@
             shadow-softness="1"
             style="background-color: #eee;"
             interaction-prompt="auto"
-            ar-scale="auto"
             min-camera-orbit="auto auto auto"
             max-camera-orbit="auto auto auto"
             camera-target="0 1 0"
             field-of-view="30deg"
             loading="eager"
-            quick-look-browsers="safari chrome"
         >
             <button slot="ar-button" class="ar-button">
                 👋 Ver en tu espacio
