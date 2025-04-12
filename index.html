@@ -138,10 +138,10 @@
             ar-modes="webxr scene-viewer quick-look"
             camera-controls
             auto-rotate
-            scale="2000 2000 2000"
+            scale="5000 5000 5000"
             ar-scale="auto"
-            ar-min-scale="0.01"
-            ar-max-scale="10000"
+            ar-min-scale="0.1"
+            ar-max-scale="20000"
             ar-placement="floor"
             placement="floor"
             ar-status
@@ -164,6 +164,9 @@
             shadow-intensity="1"
             shadow-softness="1"
             ar-level="floor"
+            ar-placement-position="0 0 0"
+            ar-placement-position-offset="0 0 0"
+            ar-placement-position-relative="0 0 0"
         >
             <button slot="ar-button" class="ar-button">
                 👋 Ver en tu espacio
@@ -214,49 +217,28 @@
             });
 
             // Verificar soporte de AR
-            checkARSupport();
-        };
-
-        // Función para verificar soporte de AR
-        function checkARSupport() {
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-            const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-            
-            if (isIOS) {
-                if (isSafari) {
-                    arStatus.textContent = 'Dispositivo iOS detectado - AR disponible ✅';
-                    arStatus.style.color = '#4CAF50';
-                } else {
-                    arStatus.textContent = '⚠️ Por favor, usa Safari para ver en AR';
-                    arStatus.style.color = '#ff9800';
+            modelViewer.addEventListener('ar-status', (event) => {
+                if (event.detail.status === 'not-presenting') {
+                    arStatus.textContent = 'AR no disponible';
+                } else if (event.detail.status === 'session-started') {
+                    arStatus.textContent = 'AR iniciado';
+                } else if (event.detail.status === 'object-placed') {
+                    arStatus.textContent = 'Modelo colocado';
                 }
-            } else if (window.navigator.userAgent.includes('Android')) {
-                arStatus.textContent = 'Dispositivo Android detectado - AR disponible en Chrome';
-            } else {
-                arStatus.textContent = 'AR solo disponible en dispositivos móviles';
-            }
-        }
+            });
 
-        // Eventos de AR
-        modelViewer.addEventListener('ar-status', (event) => {
-            if (event.detail.status === 'session-started') {
-                document.querySelector('.ar-prompt').style.display = 'block';
-            } else {
-                document.querySelector('.ar-prompt').style.display = 'none';
-            }
-        });
+            // Manejar errores de carga
+            modelViewer.addEventListener('error', (event) => {
+                console.error('Error al cargar el modelo:', event.detail);
+                arStatus.textContent = 'Error al cargar el modelo';
+            });
 
-        // Manejar eventos de carga
-        modelViewer.addEventListener('load', () => {
-            document.querySelector('.loading').style.display = 'none';
-        });
-
-        // Manejar errores
-        modelViewer.addEventListener('error', (error) => {
-            console.error('Error cargando el modelo:', error);
-            arStatus.textContent = 'Error cargando el modelo 3D';
-            arStatus.style.color = '#f44336';
-        });
+            // Manejar carga exitosa
+            modelViewer.addEventListener('load', () => {
+                console.log('Modelo cargado exitosamente');
+                arStatus.textContent = 'Modelo cargado';
+            });
+        };
     </script>
 </body>
 </html> 
