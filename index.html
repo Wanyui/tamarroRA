@@ -138,10 +138,10 @@
             ar-modes="webxr scene-viewer quick-look"
             camera-controls
             auto-rotate
-            scale="1 1 1"
-            ar-scale="auto"
-            ar-min-scale="0.01"
-            ar-max-scale="10000"
+            scale="100 100 100"
+            ar-scale="fixed"
+            ar-min-scale="1"
+            ar-max-scale="30000"
             ar-placement="floor"
             placement="floor"
             ar-status
@@ -150,7 +150,7 @@
             max-field-of-view="120deg"
             min-camera-orbit="auto 0deg auto"
             max-camera-orbit="auto 180deg 100m"
-            camera-target="0 0 0"
+            camera-target="0 -1 0"
             field-of-view="45deg"
             loading="eager"
             quick-look-browsers="safari chrome"
@@ -161,8 +161,13 @@
             environment-image="neutral"
             shadow-intensity="1"
             shadow-softness="1"
+            ar-placement-position="0 -1 0"
+            skybox-image="none"
+            ar-level="floor"
+            orientation="0 -90 0"
+            ar-status="not-presenting"
         >
-            <button slot="ar-button" class="ar-button">
+            <button slot="ar-button" class="ar-button" style="transform: translateY(-50px);">
                 👋 Ver en tu espacio
             </button>
             <div class="ar-prompt">
