@@ -25,22 +25,23 @@
             --poster-color: transparent;
             --progress-bar-height: 0;
             --progress-mask: none;
-            --model-height: 100%;
+            --model-height: 1000%;
             --ar-button-border-radius: 20px;
-            --ar-translate-z: 0;
-            --ar-scale: 500%;
+            --ar-translate-z: -10;
+            --ar-scale: 5000%;
             --model-transform-origin: bottom;
             transform-origin: bottom;
-            transform: translateY(0);
+            transform: scale(10) translateY(-100%);
         }
 
         model-viewer::part(default) {
-            transform: translateY(-100%);
+            transform: translateY(-1000%) scale(10);
         }
 
         model-viewer::part(ar-button) {
-            bottom: 20px;
+            bottom: 40px;
             position: absolute;
+            transform: scale(1.5);
         }
 
         .container {
@@ -151,10 +152,10 @@
             ar-modes="webxr scene-viewer quick-look"
             camera-controls
             auto-rotate
-            scale="500 500 500"
+            scale="5000 5000 5000"
             ar-scale="fixed"
-            ar-min-scale="100"
-            ar-max-scale="50000"
+            ar-min-scale="1000"
+            ar-max-scale="100000"
             ar-placement="floor"
             placement="floor"
             ar-status
@@ -163,7 +164,7 @@
             max-field-of-view="120deg"
             min-camera-orbit="auto 0deg 2m"
             max-camera-orbit="auto 180deg 10m"
-            camera-target="0 -2 0"
+            camera-target="0 -10 0"
             field-of-view="30deg"
             loading="eager"
             quick-look-browsers="safari chrome"
@@ -174,13 +175,12 @@
             environment-image="neutral"
             shadow-intensity="1"
             shadow-softness="1"
-            ar-placement-position="0 -2 0"
+            ar-placement-position="0 -10 0"
             skybox-image="none"
             ar-level="floor"
             orientation="0 -90 0"
             verticalPlacement="bottom"
-            ar-status="not-presenting"
-            style="--model-scale: 500%; transform: translateY(-100%);"
+            style="--model-scale: 5000%; transform: translateY(-1000%);"
         >
             <button slot="ar-button" class="ar-button" style="transform: translateY(-50px);">
                 👋 Ver en tu espacio
