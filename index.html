@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="ca">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>Visualizador 3D con AR</title>
+    <title>Visualitzador 3D amb Realitat Augmentada</title>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <style>
@@ -122,14 +122,14 @@
 <body>
     <div class="container">
         <div class="instructions">
-            <h1>Visualizador 3D con Realidad Aumentada</h1>
-            <p>Usa el botón 'Ver en tu espacio' para activar la RA</p>
+            <h1>Visualitzador 3D amb Realitat Augmentada</h1>
+            <p>Fes servir el botó 'Veure al teu espai' per activar la RA</p>
         </div>
         
         <model-viewer
             src="Character.glb"
             ios-src="TamarroRA.usdz#allowsContentScaling=1&preferredScale=1"
-            alt="Modelo 3D"
+            alt="Model 3D"
             ar
             ar-modes="webxr scene-viewer quick-look"
             camera-controls
@@ -154,34 +154,34 @@
             shadow-softness="1"
         >
             <button slot="ar-button" class="ar-button">
-                👋 Ver en tu espacio
+                👋 Veure al teu espai
             </button>
             <div class="ar-prompt">
-                Mueve el dispositivo lentamente para escanear el entorno
+                Mou el dispositiu lentament per escanejar l'entorn
             </div>
             <div class="loading" slot="loading">
-                Cargando modelo 3D...
+                Carregant model 3D...
             </div>
         </model-viewer>
         <div class="ar-status" id="ar-status"></div>
 
         <div class="qr-container">
-            <h2>Escanea para ver en tu móvil</h2>
+            <h2>Escaneja per veure al teu mòbil</h2>
             <canvas id="qr-canvas"></canvas>
             <div class="ar-instructions">
-                <p>📱 <strong>Instrucciones para iOS:</strong></p>
+                <p>📱 <strong>Instruccions per iOS:</strong></p>
                 <ol>
-                    <li>Asegúrate de usar Safari (otros navegadores no funcionarán)</li>
-                    <li>Toca el botón "Ver en AR" cuando aparezca</li>
-                    <li>Espera a que se cargue el modelo</li>
-                    <li>Apunta la cámara al suelo</li>
-                    <li>Toca para colocar el modelo</li>
+                    <li>Assegura't d'utilitzar Safari (altres navegadors no funcionaran)</li>
+                    <li>Toca el botó "Veure en RA" quan aparegui</li>
+                    <li>Espera que es carregui el model</li>
+                    <li>Apunta la càmera al terra</li>
+                    <li>Toca per col·locar el model</li>
                 </ol>
-                <p><em>Nota: Si no ves el botón de AR, asegúrate de:</em></p>
+                <p><em>Nota: Si no veus el botó de RA, assegura't de:</em></p>
                 <ul>
-                    <li>Estar usando Safari en iOS 12 o superior</li>
-                    <li>Tener conexión a Internet</li>
-                    <li>Dar permiso a la cámara cuando se solicite</li>
+                    <li>Estar utilitzant Safari en iOS 12 o superior</li>
+                    <li>Tenir connexió a Internet</li>
+                    <li>Donar permís a la càmera quan es sol·liciti</li>
                 </ul>
             </div>
         </div>
@@ -191,7 +191,7 @@
         const modelViewer = document.querySelector('model-viewer');
         const arStatus = document.getElementById('ar-status');
 
-        // Generar código QR
+        // Generar codi QR
         window.onload = function () {
             const currentUrl = window.location.href;
             const qr = new QRious({
@@ -201,27 +201,27 @@
                 level: 'H'
             });
 
-            // Verificar soporte de AR
+            // Verificar suport de RA
             modelViewer.addEventListener('ar-status', (event) => {
                 if (event.detail.status === 'not-presenting') {
-                    arStatus.textContent = 'AR no disponible';
+                    arStatus.textContent = 'RA no disponible';
                 } else if (event.detail.status === 'session-started') {
-                    arStatus.textContent = 'AR iniciado';
+                    arStatus.textContent = 'RA iniciada';
                 } else if (event.detail.status === 'object-placed') {
-                    arStatus.textContent = 'Modelo colocado';
+                    arStatus.textContent = 'Model col·locat';
                 }
             });
 
-            // Manejar errores de carga
+            // Gestionar errors de càrrega
             modelViewer.addEventListener('error', (event) => {
-                console.error('Error al cargar el modelo:', event.detail);
-                arStatus.textContent = 'Error al cargar el modelo';
+                console.error('Error en carregar el model:', event.detail);
+                arStatus.textContent = 'Error en carregar el model';
             });
 
-            // Manejar carga exitosa
+            // Gestionar càrrega exitosa
             modelViewer.addEventListener('load', () => {
-                console.log('Modelo cargado exitosamente');
-                arStatus.textContent = 'Modelo cargado';
+                console.log('Model carregat amb èxit');
+                arStatus.textContent = 'Model carregat';
             });
         };
     </script>
