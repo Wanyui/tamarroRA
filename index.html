@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <title>Visualizador 3D con AR</title>
-    <!-- Import the component -->
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <style>
@@ -15,7 +14,7 @@
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
         }
-        
+
         model-viewer {
             width: 100%;
             height: 70vh;
@@ -129,16 +128,13 @@
         
         <model-viewer
             src="Character.glb"
-            ios-src="TamarroRA.usdz#allowsContentScaling=1&preferredScale=10000"
+            ios-src="TamarroRA.usdz#allowsContentScaling=1&preferredScale=1"
             alt="Modelo 3D"
             ar
             ar-modes="webxr scene-viewer quick-look"
             camera-controls
             auto-rotate
-            scale="1 1 1"
-            ar-scale="fixed"
-            ar-min-scale="5000"
-            ar-max-scale="100000"
+            ar-scale="auto"
             ar-placement="floor"
             placement="floor"
             ar-status
@@ -194,9 +190,9 @@
     <script>
         const modelViewer = document.querySelector('model-viewer');
         const arStatus = document.getElementById('ar-status');
-        
+
         // Generar código QR
-        window.onload = function() {
+        window.onload = function () {
             const currentUrl = window.location.href;
             const qr = new QRious({
                 element: document.getElementById('qr-canvas'),
@@ -216,14 +212,6 @@
                 }
             });
 
-            // Configurar escala AR cuando se inicia la sesión
-            modelViewer.addEventListener('ar-status', (event) => {
-                if (event.detail.status === 'session-started') {
-                    modelViewer.setAttribute('ar-scale', '10000 10000 10000');
-                    modelViewer.setAttribute('scale', '10000 10000 10000');
-                }
-            });
-
             // Manejar errores de carga
             modelViewer.addEventListener('error', (event) => {
                 console.error('Error al cargar el modelo:', event.detail);
@@ -238,4 +226,4 @@
         };
     </script>
 </body>
-</html> 
+</html>
