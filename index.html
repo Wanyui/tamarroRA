@@ -25,23 +25,6 @@
             --poster-color: transparent;
             --progress-bar-height: 0;
             --progress-mask: none;
-            --model-height: 1000%;
-            --ar-button-border-radius: 20px;
-            --ar-translate-z: -10;
-            --ar-scale: 5000%;
-            --model-transform-origin: bottom;
-            transform-origin: bottom;
-            transform: scale(10) translateY(-100%);
-        }
-
-        model-viewer::part(default) {
-            transform: translateY(-1000%) scale(10);
-        }
-
-        model-viewer::part(ar-button) {
-            bottom: 40px;
-            position: absolute;
-            transform: scale(1.5);
         }
 
         .container {
@@ -146,15 +129,15 @@
         
         <model-viewer
             src="Character.glb"
-            ios-src="TamarroRA.usdz"
+            ios-src="TamarroRA.usdz#allowsContentScaling=1&preferredScale=10000"
             alt="Modelo 3D"
             ar
             ar-modes="webxr scene-viewer quick-look"
             camera-controls
             auto-rotate
-            scale="5000 5000 5000"
+            scale="1 1 1"
             ar-scale="fixed"
-            ar-min-scale="1000"
+            ar-min-scale="5000"
             ar-max-scale="100000"
             ar-placement="floor"
             placement="floor"
@@ -162,10 +145,8 @@
             bounds="tight"
             min-field-of-view="5deg"
             max-field-of-view="120deg"
-            min-camera-orbit="auto 0deg 2m"
-            max-camera-orbit="auto 180deg 10m"
-            camera-target="0 -10 0"
-            field-of-view="30deg"
+            camera-target="0 0 0"
+            field-of-view="45deg"
             loading="eager"
             quick-look-browsers="safari chrome"
             touch-action="pan-y"
@@ -175,14 +156,8 @@
             environment-image="neutral"
             shadow-intensity="1"
             shadow-softness="1"
-            ar-placement-position="0 -10 0"
-            skybox-image="none"
-            ar-level="floor"
-            orientation="0 -90 0"
-            verticalPlacement="bottom"
-            style="--model-scale: 5000%; transform: translateY(-1000%);"
         >
-            <button slot="ar-button" class="ar-button" style="transform: translateY(-50px);">
+            <button slot="ar-button" class="ar-button">
                 👋 Ver en tu espacio
             </button>
             <div class="ar-prompt">
@@ -238,6 +213,14 @@
                     arStatus.textContent = 'AR iniciado';
                 } else if (event.detail.status === 'object-placed') {
                     arStatus.textContent = 'Modelo colocado';
+                }
+            });
+
+            // Configurar escala AR cuando se inicia la sesión
+            modelViewer.addEventListener('ar-status', (event) => {
+                if (event.detail.status === 'session-started') {
+                    modelViewer.setAttribute('ar-scale', '10000 10000 10000');
+                    modelViewer.setAttribute('scale', '10000 10000 10000');
                 }
             });
 
