@@ -132,16 +132,16 @@
         
         <model-viewer
             src="Character.glb"
-            ios-src="TamarroRA.usdz"
+            ios-src="Character.glb"
             alt="Modelo 3D"
             ar
             ar-modes="webxr scene-viewer quick-look"
             camera-controls
             auto-rotate
-            scale="5000 5000 5000"
+            scale="1 1 1"
             ar-scale="auto"
-            ar-min-scale="0.1"
-            ar-max-scale="20000"
+            ar-min-scale="0.01"
+            ar-max-scale="10000"
             ar-placement="floor"
             placement="floor"
             ar-status
@@ -158,15 +158,9 @@
             interpolation-decay="200"
             exposure="1"
             interaction-prompt="none"
-            ar-placement-position="0 0 0"
-            skybox-image="none"
             environment-image="neutral"
             shadow-intensity="1"
             shadow-softness="1"
-            ar-level="floor"
-            ar-placement-position="0 0 0"
-            ar-placement-position-offset="0 0 0"
-            ar-placement-position-relative="0 0 0"
         >
             <button slot="ar-button" class="ar-button">
                 👋 Ver en tu espacio
