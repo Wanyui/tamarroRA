@@ -24,6 +24,40 @@
             --poster-color: transparent;
             --progress-bar-height: 0;
             --progress-mask: none;
+            --interaction-prompt-threshold: 0;
+            --interaction-prompt-style: basic;
+            cursor: grab;
+        }
+
+        model-viewer:active {
+            cursor: grabbing;
+        }
+
+        .controls {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .control-button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .control-button:hover {
+            background: #45a049;
         }
 
         .container {
@@ -127,18 +161,23 @@
         </div>
         
         <model-viewer
-            src="Character.gltf"
-            ios-src="TamarroRA.usdz#allowsContentScaling=1&preferredScale=1"
+            src="Character.glb"
+            ios-src="TamarroRA.usdz#allowsContentScaling=1"
             alt="Model 3D"
             ar
             ar-modes="webxr scene-viewer quick-look"
             camera-controls
             auto-rotate
             ar-scale="auto"
+            ar-min-scale="0.01"
+            ar-max-scale="100000"
+            interaction-policy="allow-when-focused"
+            interaction-prompt="auto"
             ar-placement="floor"
             placement="floor"
             ar-status
             bounds="tight"
+            enable-pan
             min-field-of-view="5deg"
             max-field-of-view="120deg"
             camera-target="0 0 0"
@@ -148,10 +187,18 @@
             touch-action="pan-y"
             interpolation-decay="200"
             exposure="1"
-            interaction-prompt="none"
             environment-image="neutral"
             shadow-intensity="1"
             shadow-softness="1"
+            interaction-prompts="none"
+            min-camera-orbit="-infinity 0deg -infinity"
+            max-camera-orbit="infinity 180deg infinity"
+            min-scale="0.01"
+            max-scale="100000"
+            scale="1 1 1"
+            draggable="true"
+            disable-zoom="false"
+            rotation-per-second="30deg"
         >
             <button slot="ar-button" class="ar-button">
                 👋 Veure al teu espai
@@ -179,7 +226,7 @@
                 </ol>
                 <p><em>Nota: Si no veus el botó de RA, assegura't de:</em></p>
                 <ul>
-                    <li>Estar utilitzant Safari en iOS 12 o superior</li>
+                    <li>Estar utilizando Safari en iOS 12 o superior</li>
                     <li>Tenir connexió a Internet</li>
                     <li>Donar permís a la càmera quan es sol·liciti</li>
                 </ul>
